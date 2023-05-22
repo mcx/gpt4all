@@ -777,7 +777,7 @@ bool MPT::loadModel(const std::string &modelPath) {
 
     // load the model
     if (!mpt_model_load(modelPath, fin, *d_ptr->model, d_ptr->vocab)) {
-        std::cerr << "GPT-J ERROR: failed to load model from " <<  modelPath;
+        std::cerr << "MPT ERROR: failed to load model from " <<  modelPath;
         return false;
     }
 
@@ -829,7 +829,7 @@ void MPT::prompt(const std::string &prompt,
         PromptContext &promptCtx) {
 
     if (!isModelLoaded()) {
-        std::cerr << "GPT-J ERROR: prompt won't work with an unloaded model!\n";
+        std::cerr << "MPT ERROR: prompt won't work with an unloaded model!\n";
         return;
     }
 
@@ -847,7 +847,7 @@ void MPT::prompt(const std::string &prompt,
 
     if ((int) embd_inp.size() > promptCtx.n_ctx - 4) {
         responseCallback(-1, "ERROR: The prompt size exceeds the context window size and cannot be processed.");
-        std::cerr << "GPT-J ERROR: The prompt is" << embd_inp.size() <<
+        std::cerr << "MPT ERROR: The prompt is" << embd_inp.size() <<
             "tokens and the context window is" << promptCtx.n_ctx << "!\n";
         return;
     }
@@ -885,7 +885,7 @@ void MPT::prompt(const std::string &prompt,
 
         if (!mpt_eval(*d_ptr->model, d_ptr->n_threads, promptCtx.n_past, batch, promptCtx.logits,
             d_ptr->mem_per_token)) {
-            std::cerr << "GPT-J ERROR: Failed to process prompt\n";
+            std::cerr << "MPT ERROR: Failed to process prompt\n";
             return;
         }
 
@@ -945,7 +945,7 @@ void MPT::prompt(const std::string &prompt,
         const int64_t t_start_predict_us = ggml_time_us();
         if (!mpt_eval(*d_ptr->model, d_ptr->n_threads, promptCtx.n_past, { id }, promptCtx.logits,
             d_ptr->mem_per_token)) {
-            std::cerr << "GPT-J ERROR: Failed to predict next token\n";
+            std::cerr << "MPT ERROR: Failed to predict next token\n";
             return;
         }
         t_predict_us += ggml_time_us() - t_start_predict_us;
@@ -1004,11 +1004,11 @@ stop_generating:
     {
         const int64_t t_main_end_us = ggml_time_us();
 
-        std::cout << "GPT-J INFO: mem per token = " << mem_per_token << " bytes\n";
-        std::cout << "GPT-J INFO:   sample time = " << t_sample_us/1000.0f << " ms\n";
-        std::cout << "GPT-J INFO:   prompt time = " << t_prompt_us/1000.0f << " ms\n";
-        std::cout << "GPT-J INFO:  predict time = " << t_predict_us/1000.0f << " ms / " << t_predict_us/1000.0f/totalPredictions << " ms per token\n";
-        std::cout << "GPT-J INFO:    total time = " << (t_main_end_us - t_main_start_us)/1000.0f << " ms\n";
+        std::cout << "MPT INFO: mem per token = " << mem_per_token << " bytes\n";
+        std::cout << "MPT INFO:   sample time = " << t_sample_us/1000.0f << " ms\n";
+        std::cout << "MPT INFO:   prompt time = " << t_prompt_us/1000.0f << " ms\n";
+        std::cout << "MPT INFO:  predict time = " << t_predict_us/1000.0f << " ms / " << t_predict_us/1000.0f/totalPredictions << " ms per token\n";
+        std::cout << "MPT INFO:    total time = " << (t_main_end_us - t_main_start_us)/1000.0f << " ms\n";
         fflush(stdout);
     }
 #endif

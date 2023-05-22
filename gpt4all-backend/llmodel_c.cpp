@@ -3,6 +3,7 @@
 #include "gptj.h"
 #include "llamamodel.h"
 #include "mpt.h"
+#include "replit.h"
 
 struct LLModelWrapper {
     LLModel *llModel = nullptr;
@@ -47,6 +48,20 @@ llmodel_model llmodel_llama_create()
 void llmodel_llama_destroy(llmodel_model llama)
 {
     LLModelWrapper *wrapper = reinterpret_cast<LLModelWrapper*>(llama);
+    delete wrapper->llModel;
+    delete wrapper;
+}
+
+llmodel_model llmodel_replit_create()
+{
+    LLModelWrapper *wrapper = new LLModelWrapper;
+    wrapper->llModel = new Replit;
+    return reinterpret_cast<void*>(wrapper);
+}
+
+void llmodel_replit_destroy(llmodel_model replit)
+{
+    LLModelWrapper *wrapper = reinterpret_cast<LLModelWrapper*>(replit);
     delete wrapper->llModel;
     delete wrapper;
 }

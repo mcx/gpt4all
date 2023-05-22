@@ -41,6 +41,7 @@ add_library(llmodel
     llama.cpp/examples/common.cpp
     llmodel.h llmodel_c.h llmodel_c.cpp
     mpt.h mpt.cpp
+    replit.h replit.cpp
     utils.h utils.cpp
 )
 
