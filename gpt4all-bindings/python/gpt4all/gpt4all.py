@@ -273,6 +273,8 @@ class GPT4All():
             return pyllmodel.LlamaModel()
         elif model_type == "mpt":
             return pyllmodel.MPTModel()
+        elif mode_type == "replit":
+            return pyllmodel.ReplitModel()
         else:
             raise ValueError(f"No corresponding model for model_type: {model_type}")
         
@@ -306,12 +308,18 @@ class GPT4All():
             "ggml-mpt-7b-instruct.bin"
         ]
 
+        REPLIT_MODELS = [
+            "ggml-replit-code-v1-3b-f16.bin"
+        ]
+
         if model_name in GPTJ_MODELS:
             return pyllmodel.GPTJModel()
         elif model_name in LLAMA_MODELS:
             return pyllmodel.LlamaModel()
         elif model_name in MPT_MODELS:
             return pyllmodel.MPTModel()
+        elif model_name in REPLIT_MODELS:
+            return pyllmodel.ReplitModel()
         else:
             err_msg = f"""No corresponding model for provided filename {model_name}.
             If this is a custom model, make sure to specify a valid model_type.

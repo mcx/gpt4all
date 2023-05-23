@@ -76,6 +76,7 @@ llmodel_model llmodel_model_create(const char *model_path) {
     if (magic == 0x67676d6c) { model = llmodel_gptj_create();  }
     else if (magic == 0x67676a74) { model = llmodel_llama_create(); }
     else if (magic == 0x67676d6d) { model = llmodel_mpt_create();   }
+    else if (magic == 0x7265706c) { model = llmodel_replit_create(); }
     else  {fprintf(stderr, "Invalid model file\n");}
     fclose(f);
     return model;
@@ -89,6 +90,7 @@ void llmodel_model_destroy(llmodel_model model) {
     if (modelTypeInfo == typeid(GPTJ))       { llmodel_gptj_destroy(model);  }
     if (modelTypeInfo == typeid(LLamaModel)) { llmodel_llama_destroy(model); }
     if (modelTypeInfo == typeid(MPT))        { llmodel_mpt_destroy(model);   }
+    if (modelTypeInfo == typeid(REPLIT))     { llmodel_replit_destroy(model); }
 }
 
 bool llmodel_loadModel(llmodel_model model, const char *model_path)

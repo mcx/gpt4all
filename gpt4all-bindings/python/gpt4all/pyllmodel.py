@@ -61,6 +61,8 @@ llmodel.llmodel_llama_create.restype = ctypes.c_void_p
 llmodel.llmodel_llama_destroy.argtypes = [ctypes.c_void_p]
 llmodel.llmodel_mpt_create.restype = ctypes.c_void_p
 llmodel.llmodel_mpt_destroy.argtypes = [ctypes.c_void_p]
+llmodel.llmodel_replit_create.restype = ctypes.c_void_p
+llmodel.llmodel_replit_destroy.argtypes = [ctypes.c_void_p]
 
 
 llmodel.llmodel_loadModel.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
@@ -287,4 +289,18 @@ class MPTModel(LLModel):
     def __del__(self):
         if self.model is not None and llmodel is not None:
             llmodel.llmodel_mpt_destroy(self.model)
+        super().__del__()
+
+
+class ReplitModel(LLModel):
+
+    model_type = "replit"
+
+    def __init__(self):
+        super().__init__()
+        self.model = llmodel.llmodel_replit_create()
+
+    def __del__(self):
+        if self.model is not None and llmodel is not None:
+            llmodel.llmodel_replit_destroy(self.model)
         super().__del__()

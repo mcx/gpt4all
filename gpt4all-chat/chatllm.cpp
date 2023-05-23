@@ -20,6 +20,7 @@
 
 #define MPT_INTERNAL_STATE_VERSION 0
 #define GPTJ_INTERNAL_STATE_VERSION 0
+#define REPLIT_INTERNAL_STATE_VERSION 0
 #define LLAMA_INTERNAL_STATE_VERSION 0
 
 static QString modelFilePath(const QString &modelName, bool isChatGPT)
@@ -222,6 +223,7 @@ bool ChatLLM::loadModel(const QString &modelName)
             fin.close();
             const bool isGPTJ = magic == 0x67676d6c;
             const bool isMPT = magic == 0x67676d6d;
+            const bool isReplit = magic == 0x7265706c;
             if (isGPTJ) {
                 m_modelType = LLModelType::GPTJ_;
                 m_modelInfo.model = new GPTJ;
@@ -230,7 +232,12 @@ bool ChatLLM::loadModel(const QString &modelName)
                 m_modelType = LLModelType::MPT_;
                 m_modelInfo.model = new MPT;
                 m_modelInfo.model->loadModel(filePath.toStdString());
-            } else {
+            } else if (isReplit) {
+                m_modelType = LLModelType::REPLIT_;
+                m_modelInfo.model = new REPLIT;
+                m_modelInfo.model->loadModel(filePath.toStdString());
+            } 
+            else {
                 m_modelType = LLModelType::LLAMA_;
                 m_modelInfo.model = new LLamaModel;
                 m_modelInfo.model->loadModel(filePath.toStdString());
@@ -560,6 +567,7 @@ bool ChatLLM::serialize(QDataStream &stream, int version)
         switch (m_modelType) {
         case MPT_: stream << MPT_INTERNAL_STATE_VERSION; break;
         case GPTJ_: stream << GPTJ_INTERNAL_STATE_VERSION; break;
+        case REPLIT: stream << REPLIT_INTERNAL_STATE_VERSION; break;
         case LLAMA_: stream << LLAMA_INTERNAL_STATE_VERSION; break;
         default: Q_UNREACHABLE();
         }
