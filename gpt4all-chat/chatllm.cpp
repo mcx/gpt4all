@@ -236,8 +236,7 @@ bool ChatLLM::loadModel(const QString &modelName)
                 m_modelType = LLModelType::REPLIT_;
                 m_modelInfo.model = new REPLIT;
                 m_modelInfo.model->loadModel(filePath.toStdString());
-            } 
-            else {
+            } else {
                 m_modelType = LLModelType::LLAMA_;
                 m_modelInfo.model = new LLamaModel;
                 m_modelInfo.model->loadModel(filePath.toStdString());
