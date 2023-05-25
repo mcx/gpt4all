@@ -87,10 +87,10 @@ void llmodel_model_destroy(llmodel_model model) {
     LLModelWrapper *wrapper = reinterpret_cast<LLModelWrapper*>(model);
     const std::type_info &modelTypeInfo = typeid(*wrapper->llModel);
 
-    if (modelTypeInfo == typeid(GPTJ))       { llmodel_gptj_destroy(model);  }
-    if (modelTypeInfo == typeid(LLamaModel)) { llmodel_llama_destroy(model); }
-    if (modelTypeInfo == typeid(MPT))        { llmodel_mpt_destroy(model);   }
-    if (modelTypeInfo == typeid(Replit))     { llmodel_replit_destroy(model); }
+    if (modelTypeInfo == typeid(GPTJ))            { llmodel_gptj_destroy(model);   }
+    else if (modelTypeInfo == typeid(LLamaModel)) { llmodel_llama_destroy(model);  }
+    else if (modelTypeInfo == typeid(MPT))        { llmodel_mpt_destroy(model);    }
+    else if (modelTypeInfo == typeid(Replit))     { llmodel_replit_destroy(model); }
 }
 
 bool llmodel_loadModel(llmodel_model model, const char *model_path)
