@@ -518,7 +518,7 @@ QtObject {
             case "Dark":
                 return accentColor;
             default:
-                return accentColor;
+                return black;
         }
     }
 
@@ -529,7 +529,7 @@ QtObject {
             case "Dark":
                 return darkwhite;
             default:
-                return black;
+                return accentColor;
         }
     }
 
@@ -740,7 +740,7 @@ QtObject {
             case "Dark":
                 return green400;
             default:
-                return green400;
+                return black;
         }
     }
 
@@ -824,8 +824,6 @@ QtObject {
     // lighter contrast
     property color mutedLighterTextColor: {
         switch (MySettings.chatTheme) {
-//            case "LegacyDark":
-//            case "Dark":
             default:
                 return gray300;
         }
@@ -834,8 +832,6 @@ QtObject {
     // light contrast
     property color mutedLightTextColor: {
         switch (MySettings.chatTheme) {
-//            case "LegacyDark":
-//            case "Dark":
             default:
                 return gray400;
         }
@@ -1066,6 +1062,105 @@ QtObject {
                 return accentColor;
             default:
                 return accentColor;
+        }
+    }
+
+    property color codeDefaultColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+            default:
+                return textColor;
+        }
+    }
+
+    property color codeKeywordColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return "#2e95d3"; // blue
+            default:
+                return "#195273"; // dark blue
+        }
+    }
+
+    property color codeFunctionColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return"#f22c3d"; // red
+            default:
+                return"#7d1721"; // dark red
+        }
+    }
+
+    property color codeFunctionCallColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return "#e9950c"; // orange
+            default:
+                return "#815207"; // dark orange
+        }
+    }
+
+    property color codeCommentColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return "#808080"; // gray
+            default:
+                return "#474747"; // dark gray
+        }
+    }
+
+    property color codeStringColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return "#00a37d"; // green
+            default:
+                return "#004a39"; // dark green
+        }
+    }
+
+    property color codeNumberColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return "#df3079"; // fuchsia
+            default:
+                return "#761942"; // dark fuchsia
+        }
+    }
+
+    property color codeHeaderColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return containerBackground;
+            default:
+                return green50;
+        }
+    }
+
+    property color codeBackgroundColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return controlBackground;
+            default:
+                return gray100;
+        }
+    }
+
+    property color chatNameEditBgColor: {
+        switch (MySettings.chatTheme) {
+            case "LegacyDark":
+            case "Dark":
+                return controlBackground;
+            default:
+                return gray100;
         }
     }
 

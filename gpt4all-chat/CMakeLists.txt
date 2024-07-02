@@ -20,7 +20,9 @@ set(APP_VERSION_MAJOR 3)
 set(APP_VERSION_MINOR 0)
 set(APP_VERSION_PATCH 0)
 set(APP_VERSION_BASE "${APP_VERSION_MAJOR}.${APP_VERSION_MINOR}.${APP_VERSION_PATCH}")
-set(APP_VERSION "${APP_VERSION_BASE}-rc3")
+set(APP_VERSION "${APP_VERSION_BASE}")
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/Modules")
 
 # Include the binary directory for the generated header file
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
@@ -173,48 +175,51 @@ qt_add_qml_module(chat
       icons/antenna_1.svg
       icons/antenna_2.svg
       icons/antenna_3.svg
-      icons/send_message.svg
-      icons/stop_generating.svg
-      icons/regenerate.svg
       icons/caret_down.svg
       icons/caret_right.svg
-      icons/chat.svg
       icons/changelog.svg
+      icons/chat.svg
+      icons/check.svg
       icons/close.svg
       icons/copy.svg
       icons/db.svg
       icons/discord.svg
       icons/download.svg
-      icons/settings.svg
-      icons/eject.svg
       icons/edit.svg
+      icons/eject.svg
       icons/email.svg
-      icons/file.svg
       icons/file-md.svg
       icons/file-pdf.svg
       icons/file-txt.svg
+      icons/file.svg
       icons/github.svg
       icons/globe.svg
+      icons/gpt4all-32.png
+      icons/gpt4all-48.png
+      icons/gpt4all.svg
+      icons/gpt4all_transparent.svg
       icons/home.svg
       icons/image.svg
       icons/info.svg
-      icons/local-docs.svg
-      icons/models.svg
-      icons/nomic_logo.svg
-      icons/notes.svg
-      icons/search.svg
-      icons/trash.svg
-      icons/network.svg
-      icons/thumbs_up.svg
-      icons/thumbs_down.svg
-      icons/twitter.svg
       icons/left_panel_closed.svg
       icons/left_panel_open.svg
-      icons/gpt4all.svg
-      icons/gpt4all-32.png
-      icons/gpt4all-48.png
+      icons/local-docs.svg
+      icons/models.svg
+      icons/network.svg
+      icons/nomic_logo.svg
+      icons/notes.svg
+      icons/recycle.svg
+      icons/regenerate.svg
+      icons/search.svg
+      icons/send_message.svg
+      icons/settings.svg
+      icons/stop_generating.svg
+      icons/thumbs_down.svg
+      icons/thumbs_up.svg
+      icons/trash.svg
+      icons/twitter.svg
+      icons/up_down.svg
       icons/you.svg
-      icons/alt_logo.svg
 )
 
 set_target_properties(chat PROPERTIES
@@ -284,10 +289,6 @@ target_link_libraries(chat
 
 # -- install --
 
-function(install_sign_osx tgt)
-    install(CODE "execute_process(COMMAND codesign --options runtime --timestamp -s \"${MAC_SIGNING_IDENTITY}\" $<TARGET_FILE:${tgt}>)")
-endfunction()
-
 set(COMPONENT_NAME_MAIN ${PROJECT_NAME})
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -331,10 +332,20 @@ install(
 )
 
 if(APPLE AND GPT4ALL_SIGN_INSTALL)
+    include(SignMacOSBinaries)
     install_sign_osx(chat)
     install_sign_osx(llmodel)
     foreach(tgt ${MODEL_IMPL_TARGETS})
         install_sign_osx(${tgt})
+    endforeach()
+endif()
+
+if(WIN32 AND GPT4ALL_SIGN_INSTALL)
+    include(SignWindowsBinaries)
+    sign_target_windows(chat)
+    sign_target_windows(llmodel)
+    foreach(tgt ${MODEL_IMPL_TARGETS})
+        sign_target_windows(${tgt})
     endforeach()
 endif()
 

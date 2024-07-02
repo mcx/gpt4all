@@ -148,10 +148,10 @@ Rectangle {
                             Image {
                                 id: newsImg
                                 anchors.centerIn: parent
-                                sourceSize: Qt.size(40, 40)
+                                sourceSize: Qt.size(48, 48)
                                 mipmap: true
                                 visible: false
-                                source: "qrc:/gpt4all/icons/alt_logo.svg"
+                                source: "qrc:/gpt4all/icons/gpt4all_transparent.svg"
                             }
 
                             ColorOverlay {
@@ -219,6 +219,12 @@ Rectangle {
                         text: qsTr("Release Notes")
                         imageSource: "qrc:/gpt4all/icons/notes.svg"
                         onClicked: { Qt.openUrlExternally("https://github.com/nomic-ai/gpt4all/releases") }
+                    }
+
+                    MyFancyLink {
+                        text: qsTr("Documentation")
+                        imageSource: "qrc:/gpt4all/icons/info.svg"
+                        onClicked: { Qt.openUrlExternally("https://docs.gpt4all.io/") }
                     }
 
                     MyFancyLink {
